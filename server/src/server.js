@@ -23,7 +23,7 @@ const _dirname = path.resolve();
 app.use(express.static(path.join(_dirname, '../client/dist')));
 
 // Catch-all route: Send any unknown requests to the React app
-app.get('*', (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.resolve(_dirname, '../client/dist', 'index.html'));
 });
 
