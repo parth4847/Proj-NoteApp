@@ -4,6 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 // initialize the express application
 const app = express();
@@ -17,6 +18,14 @@ const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 const noteRoutes = require('./routes/noteRoutes');
 app.use('/api/notes', noteRoutes);
+
+const _dirname = path.resolve();
+app.use(express.static(path.join(_dirname, '../client/dist')));
+
+// Catch-all route: Send any unknown requests to the React app
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(_dirname, '../client/dist', 'index.html'));
+});
 
 // grab variables from our environment file
 const PORT = process.env.PORT || 5000;

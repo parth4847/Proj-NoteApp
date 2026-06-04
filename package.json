@@ -1,0 +1,21 @@
+{
+  "name": "noteapp",
+  "version": "1.0.0",
+  "description": "Frontier Notes\r A full-stack, vibe-coded web application that allows users to create highly secure, self-destructing private notes, share them via encrypted links, and leverage AI to summarize the contents upon unlocking.",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
+    "start": "npm start --prefix server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parth4847/Proj-NoteApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/parth4847/Proj-NoteApp/issues"
+  },
+  "homepage": "https://github.com/parth4847/Proj-NoteApp#readme"
+}
