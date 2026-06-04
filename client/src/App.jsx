@@ -1,17 +1,23 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import CreateNote from './pages/CreateNote';
 import ViewNote from './pages/ViewNote';
-import { ShieldAlert } from 'lucide-react';
+import { Hexagon, Lock } from 'lucide-react';
 
 export default function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-[#0b0f19] text-[#f3f4f6]">
+      <div className="min-h-screen text-[#f3f4f6] font-sans selection:bg-fuchsia-500/30">
         {/* Streamlined Navigation Bar */}
-        <nav className="border-b border-slate-800 bg-[#0d1321] px-6 py-4 flex items-center justify-center">
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold tracking-wider text-blue-400 hover:text-blue-300 transition-colors">
-            <ShieldAlert size={24} />
-            <span>FRONTIER_NOTES</span>
+        <nav className="sticky top-0 z-50 backdrop-blur-md bg-black/20 border-b border-white/5 px-6 py-4 flex items-center justify-center transition-all">
+          <Link to="/" className="flex items-center gap-3 group transition-all">
+            <div className="relative flex items-center justify-center">
+              <div className="absolute inset-0 bg-fuchsia-500/20 blur-md rounded-full group-hover:bg-fuchsia-500/40 transition-colors duration-500"></div>
+              <Hexagon size={28} className="text-fuchsia-400 group-hover:text-fuchsia-300 transition-colors duration-500 drop-shadow-[0_0_8px_rgba(217,70,239,0.5)]" strokeWidth={1.5} />
+              <Lock size={12} className="absolute text-violet-300 group-hover:text-white transition-colors duration-500" strokeWidth={2.5} />
+            </div>
+            <span className="text-xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-fuchsia-200 to-white/80 group-hover:from-white group-hover:via-white group-hover:to-white transition-all duration-500">
+              FRONTIER NOTES
+            </span>
           </Link>
         </nav>
 

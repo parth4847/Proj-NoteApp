@@ -56,35 +56,41 @@ export default function ViewNote() {
   // --------------------------------------------------------
   if (!isUnlocked) {
     return (
-      <div className="max-w-md mx-auto mt-12 bg-[#111827] border border-slate-800 rounded-xl p-8 shadow-2xl">
+      <div className="max-w-md mx-auto mt-12 backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-10 shadow-[0_0_40px_-10px_rgba(168,85,247,0.15)] transition-all animate-in fade-in zoom-in duration-500">
         <div className="flex flex-col items-center text-center space-y-4 mb-8">
-          <div className="bg-blue-500/10 p-4 rounded-full">
-            <Lock className="text-blue-500 w-8 h-8" />
+          <div className="relative group">
+            <div className="absolute inset-0 bg-violet-500/20 blur-xl rounded-full group-hover:bg-fuchsia-500/30 transition-colors"></div>
+            <Lock className="text-violet-400 w-10 h-10 relative z-10 drop-shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
           </div>
-          <h2 className="text-2xl font-bold text-white">Encrypted Note</h2>
-          <p className="text-sm text-slate-400">Enter the password to decrypt and view this message.</p>
+          <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">Encrypted Note</h2>
+          <p className="text-sm text-zinc-400">Enter the password to decrypt and view this message.</p>
         </div>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/50 text-red-400 p-3 rounded-lg flex items-center gap-2 mb-6 text-sm">
-            <AlertTriangle size={18} /> {error}
+          <div className="backdrop-blur-md bg-red-500/10 border border-red-500/30 text-red-400 p-3 rounded-xl flex items-center gap-2 mb-6 text-sm shadow-lg">
+            <AlertTriangle size={18} className="animate-pulse" /> {error}
           </div>
         )}
 
-        <form onSubmit={handleUnlock} className="space-y-4">
-          <input
-            type="password"
-            placeholder="Enter password..."
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-[#1f2937] border border-slate-700 rounded-lg p-3 text-center text-white tracking-widest focus:border-blue-500 outline-none transition"
-          />
+        <form onSubmit={handleUnlock} className="space-y-6">
+          <div className="relative">
+            <input
+              type="password"
+              placeholder="Enter password..."
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-center text-white tracking-widest focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/50 outline-none transition-all shadow-inner placeholder-zinc-600"
+            />
+          </div>
           <button
             type="submit"
             disabled={loading || !password.trim()}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white p-3 rounded-lg font-bold flex items-center justify-center gap-2 transition"
+            className="w-full relative group overflow-hidden bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed border border-white/10 p-4 rounded-xl font-bold tracking-wide transition-all hover:border-violet-500/50 flex items-center justify-center gap-2 shadow-lg hover:shadow-[0_0_30px_-5px_rgba(139,92,246,0.3)] hover:-translate-y-0.5 active:translate-y-0"
           >
-            {loading ? <Loader2 size={18} className="animate-spin" /> : <><Unlock size={18} /> Decrypt Note</>}
+            <div className="absolute inset-0 bg-gradient-to-r from-violet-600/80 to-fuchsia-600/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <span className="relative z-10 flex items-center gap-2 text-white">
+              {loading ? <Loader2 size={18} className="animate-spin" /> : <><Unlock size={18} /> Decrypt Note</>}
+            </span>
           </button>
         </form>
       </div>
@@ -95,21 +101,22 @@ export default function ViewNote() {
   // VIEW 2: The Unlocked Screen (Note Content + AI Features)
   // --------------------------------------------------------
   return (
-    <div className="max-w-3xl mx-auto space-y-8">
+    <div className="max-w-3xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
       {/* The Decrypted Note */}
-      <div className="bg-[#111827] border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
-        <div className="bg-emerald-500/10 border-b border-slate-800 p-4 flex items-center gap-3">
-          <Unlock className="text-emerald-500" size={20} />
-          <span className="text-emerald-500 font-medium tracking-wide">Note Decrypted Successfully</span>
+      <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_40px_-10px_rgba(16,185,129,0.15)] transition-all">
+        <div className="bg-emerald-500/10 border-b border-white/5 p-4 flex items-center gap-3 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent"></div>
+          <Unlock className="text-emerald-400 animate-pulse" size={20} />
+          <span className="text-emerald-400 font-bold tracking-wide">Note Decrypted Successfully</span>
         </div>
-        <div className="p-8 text-lg text-slate-300 leading-relaxed whitespace-pre-wrap">
+        <div className="p-8 text-lg text-zinc-300 leading-relaxed whitespace-pre-wrap font-medium">
           {noteContent}
         </div>
       </div>
 
       {error && (
-        <div className="bg-red-500/10 border border-red-500/50 text-red-400 p-4 rounded-lg flex items-center gap-3">
-          <AlertTriangle size={20} /> {error}
+        <div className="backdrop-blur-md bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-xl flex items-center gap-3 shadow-lg">
+          <AlertTriangle size={20} className="animate-pulse" /> {error}
         </div>
       )}
 
@@ -118,21 +125,24 @@ export default function ViewNote() {
         <button
           onClick={handleSummarize}
           disabled={loadingSummary}
-          className="w-full bg-[#1f2937] hover:bg-purple-900/40 border border-slate-700 hover:border-purple-500/50 text-purple-400 p-4 rounded-xl font-medium transition flex items-center justify-center gap-2 group"
+          className="w-full backdrop-blur-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-fuchsia-500/50 text-fuchsia-300 p-4 rounded-2xl font-bold tracking-wide transition-all flex items-center justify-center gap-2 group shadow-lg hover:shadow-[0_0_30px_-5px_rgba(217,70,239,0.2)] hover:-translate-y-0.5 active:translate-y-0"
         >
           {loadingSummary ? (
              <Loader2 size={20} className="animate-spin" />
           ) : (
-             <><Sparkles size={20} className="group-hover:animate-pulse" /> Summarize this note with AI</>
+             <><Sparkles size={20} className="group-hover:animate-pulse text-fuchsia-400" /> Summarize this note with AI</>
           )}
         </button>
       ) : (
-        <div className="bg-gradient-to-br from-[#1a1025] to-[#111827] border border-purple-500/30 rounded-xl p-6 shadow-lg shadow-purple-900/10">
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="text-purple-400" size={20} />
-            <h3 className="text-purple-400 font-bold tracking-wide">AI Summary</h3>
+        <div className="relative backdrop-blur-xl bg-black/40 border border-fuchsia-500/30 rounded-2xl p-8 shadow-[0_0_40px_-10px_rgba(217,70,239,0.2)] animate-in zoom-in duration-500">
+          <div className="absolute top-0 left-10 w-32 h-[1px] bg-gradient-to-r from-transparent via-fuchsia-500 to-transparent"></div>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-fuchsia-500/20 p-2 rounded-lg">
+              <Sparkles className="text-fuchsia-400" size={20} />
+            </div>
+            <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-violet-400 font-extrabold text-xl tracking-wide">AI Summary</h3>
           </div>
-          <div className="text-slate-300 space-y-2 text-sm leading-relaxed whitespace-pre-wrap">
+          <div className="text-zinc-300 space-y-2 text-base leading-relaxed whitespace-pre-wrap font-medium">
             {summary}
           </div>
         </div>
