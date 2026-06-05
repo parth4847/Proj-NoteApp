@@ -14,15 +14,21 @@ app.use(express.json());
 
 // middleware to allow cross origin requests from our future frontend
 app.use(cors());
-const authRoutes = require('./routes/authRoutes');
-app.use('/api/auth', authRoutes);
+
+// basic health check route to verify server is up (Must be BEFORE the catch-all)
+app.get('/health', (req, res) => {
+  res.status(200).json({ message: 'Server is healthy and running' });
+});
+
+// API Routes
 const noteRoutes = require('./routes/noteRoutes');
 app.use('/api/notes', noteRoutes);
 
+// Serve the static frontend files built by Vite
 const _dirname = path.resolve();
 app.use(express.static(path.join(_dirname, '../client/dist')));
 
-// Catch-all route: Send any unknown requests to the React app
+// Catch-all route: Send any unknown requests to the React app (Must be the LAST route)
 app.get(/.*/, (req, res) => {
   res.sendFile(path.resolve(_dirname, '../client/dist', 'index.html'));
 });
@@ -47,8 +53,3 @@ mongoose.connect(MONGO_URI)
     console.error('Database connection failed');
     console.error(error);
   });
-
-// basic health check route to verify server is up
-app.get('/health', (req, res) => {
-  res.status(200).json({ message: 'Server is healthy and running' });
-});
